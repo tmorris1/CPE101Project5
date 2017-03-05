@@ -1,3 +1,9 @@
+# Project 5 - Earthquakes
+#
+# Name: Taylor Morris
+# Instructor: Brian Jones
+# Section: 17
+
 import unittest
 import quake_funcs
 
@@ -37,7 +43,45 @@ class TestCases(unittest.TestCase):
       # call read_file with "test0.txt"
       self.assertEqual(quake_funcs.read_quakes_from_file("test0.txt"), quakes)
 
-   '''# Use this test when ready to work on the json data.
+   def test_mag_filter1(self):
+      self.assertListEqual(quake_funcs.filter_by_mag([quake_funcs.Earthquake("5km S of Gilroy, California", 2.19, -121.5801697, 36.9580002, 1488173538), quake_funcs.Earthquake("12km SSW of Idyllwild, CA", 0.97, -116.7551651, 33.6391678, 1488177290)], 1.0,2.0), [])
+
+   def test_mag_filter2(self):
+      self.assertListEqual(quake_funcs.filter_by_mag([quake_funcs.Earthquake("5km S of Gilroy, California", 2.19, -121.5801697, 36.9580002, 1488173538), quake_funcs.Earthquake("12km SSW of Idyllwild, CA", 0.97, -116.7551651, 33.6391678, 1488177290)], 0.5 ,2.0), [quake_funcs.Earthquake("12km SSW of Idyllwild, CA", 0.97, -116.7551651, 33.6391678, 1488177290)])
+
+   def test_mag_filter3(self):
+      self.assertListEqual(quake_funcs.filter_by_mag([quake_funcs.Earthquake("5km S of Gilroy, California", 2.19, -121.5801697, 36.9580002, 1488173538), quake_funcs.Earthquake("12km SSW of Idyllwild, CA", 0.97, -116.7551651, 33.6391678, 1488177290)], 0.5 ,2.5), [quake_funcs.Earthquake("5km S of Gilroy, California", 2.19, -121.5801697, 36.9580002, 1488173538), quake_funcs.Earthquake("12km SSW of Idyllwild, CA", 0.97, -116.7551651, 33.6391678, 1488177290)])
+
+
+   def test_place_filter1(self):
+      quakes = []
+      quakes.append(quake_funcs.Earthquake("5km S of Gilroy, California", 2.19,
+                                          -121.5801697, 36.9580002, 1488173538))
+      quakes.append(quake_funcs.Earthquake("12km SSW of Idyllwild, CA", 0.97, 
+                                          -116.7551651, 33.6391678, 1488177290))
+
+      self.assertListEqual(quake_funcs.filter_by_place(quakes, "ca"), quakes)
+                                                     
+   def test_place_filter2(self):
+      quakes = []
+      quakes.append(quake_funcs.Earthquake("5km S of Gilroy, California", 2.19,
+                                          -121.5801697, 36.9580002, 1488173538))
+      quakes.append(quake_funcs.Earthquake("12km SSW of Idyllwild, CA", 0.97, 
+                                          -116.7551651, 33.6391678, 1488177290))
+
+      self.assertListEqual(quake_funcs.filter_by_place(quakes, "cali"),[quake_funcs.Earthquake("5km S of Gilroy, California", 2.19, -121.5801697, 36.9580002, 1488173538)])
+
+   def test_place_filter1(self):
+      quakes = []
+      quakes.append(quake_funcs.Earthquake("5km S of Gilroy, California", 2.19,
+                                          -121.5801697, 36.9580002, 1488173538))
+      quakes.append(quake_funcs.Earthquake("12km SSW of Idyllwild, CA", 0.97, 
+                                          -116.7551651, 33.6391678, 1488177290))
+
+      self.assertListEqual(quake_funcs.filter_by_place(quakes, "az"), [])
+                                                      
+
+   # Use this test when ready to work on the json data.
    def test_quake_from_feature(self):
       feature = {
           "geometry": {
@@ -82,8 +126,9 @@ class TestCases(unittest.TestCase):
       quake2 = quake_funcs.Earthquake("5km NE of Home Gardens, CA", 1.24,
                                       -117.4906667, 33.9131667, 1488179250)
       self.assertEqual(quake1, quake2)
-   '''
+quakes_dict = quake_funcs.get_json('http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_hour.geojson')
 
+      
 
 # Run the unit tests.
 if __name__ == '__main__':
