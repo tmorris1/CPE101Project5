@@ -1,3 +1,10 @@
+# Project 5 - Earthquakes
+#
+# Name: Taylor Morris
+# Instructor: Brian Jones
+# Section: 17
+
+
 from urllib.request import urlopen
 from json import loads
 from datetime import datetime
@@ -32,6 +39,7 @@ def time_to_str(time):
 
 
 
+
 class Earthquake:
    """ A class to model and earthquake.
 
@@ -53,31 +61,53 @@ class Earthquake:
    def __eq__(self, other):
       return self.place == other.place and self.mag == other.mag and self.longitude == other.longitude and self.latitude == other.latitude and self.time == other.time
 
+   def __str__(self):
+      return ("Place: {:s} Mag: {:2.f} Longitude: {:3.f} Latitude: {:3.f} Time: {:d}".format(self.place, self.mag, self.longitude, self.latitude, self.time)) 
 
 
-# TODO: Required function - implement me!
+
+
 def read_quakes_from_file(filename):
    my_file = open(filename, 'r')
    list_of_quakes = []
+
    for line in my_file:
       string = line.split()
       place = " ".join(string[4:])
       q = Earthquake(place, float(string[0]),float(string[1]), float(string[2]), int(string[3]))
       list_of_quakes.append(q)
+
    return list_of_quakes
 
 
 
 
-
-# TODO: Required function - implement me!
 def filter_by_mag(quakes, low, high):
-   pass
+   filtered = []
+   for quake in quakes:
+      if low <= quake.mag <= high:
+         filtered.append(quake)
+   return filtered
+
+#print(filter_by_mag([Earthquake("CA", 3.0, 12, 3, 12), Earthquake("Az", 5.0, 2, 4, 20)], 1, 4))
 
 
 # TODO: Required function - implement me!
+def char_upper(char):
+   if char.islower():
+      return chr(ord(char) - 32)
+   else:
+      return char
+
+def string_upper(string):
+   return "".join([char_upper(c) for c in string])
+
 def filter_by_place(quakes, word):
-   pass
+   filtered = []
+   for quake in quakes:
+      if string_upper(word) in string_upper(quake.place):
+         filtered.append(quake)
+   return filtered
 
 
 # TODO: Required function for final part - implement me too!
